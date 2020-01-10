@@ -1,16 +1,19 @@
 Name:           perl-Date-Calc
 Version:        6.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Gregorian calendar date calculations
 
 Group:          Development/Libraries
 License:        GPL+ or Artistic
 URL:            http://search.cpan.org/dist/Date-Calc/
 Source0:        http://www.cpan.org/authors/id/S/ST/STBEY/Date-Calc-%{version}.tar.gz
+# rt#101232, rhbz#1209435
+Patch0:         Date-Calc-6.3-century.patch
+
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  perl(ExtUtils::MakeMaker)
-BuildRequires:	perl(Carp::Clan) >= 6.3
+BuildRequires:  perl(Carp::Clan) >= 6.3
 BuildRequires:  perl(Bit::Vector) >= 7.1
 Requires:       perl(Bit::Vector) >= 7.1
 Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
@@ -24,8 +27,8 @@ thereby complying with all relevant norms and standards: ISO/R
 
 
 %prep
-%setup -q -n Date-Calc-%{version} 
-%{__perl} -pi -e 's|^#!perl\b|#!%{__perl}|' examples/*.{pl,cgi} tools/*.pl
+%setup -q -n Date-Calc-%{version}
+%patch0 -p1
 
 # Filter unwanted Provides:
 cat << \EOF > %{name}-prov
@@ -73,6 +76,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Sep 08 2016 Jitka Plesnikova <jplesnik@redhat.com> - 6.3-3
+- Adapt the test suite for the 2015-2115 era (rhbz#1209435)
+
 * Mon Dec  7 2009 Stepan Kasal <skasal@redhat.com> - 6.3-2
 - rebuild against perl 5.10.1
 
