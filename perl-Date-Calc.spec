@@ -1,6 +1,6 @@
 Name:           perl-Date-Calc
 Version:        6.3
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        Gregorian calendar date calculations
 
 Group:          Development/Libraries
@@ -65,6 +65,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Dec 27 2013 Daniel Mach <dmach@redhat.com> - 6.3-13
+- Mass rebuild 2013-12-27
+
 * Mon Nov 26 2012 Jitka Plesnikova <jplesnik@redhat.com> - 6.3-12
 - Update filter
 - Add BR perl(Carp)
