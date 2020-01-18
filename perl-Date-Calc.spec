@@ -1,12 +1,14 @@
 Name:           perl-Date-Calc
 Version:        6.3
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Gregorian calendar date calculations
 
 Group:          Development/Libraries
 License:        GPL+ or Artistic
 URL:            http://search.cpan.org/dist/Date-Calc/
 Source0:        http://www.cpan.org/authors/id/S/ST/STBEY/Date-Calc-%{version}.tar.gz
+# rt#101232, rhbz#1197242
+Patch0:         Date-Calc-6.3-century.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  perl(ExtUtils::MakeMaker)
@@ -27,7 +29,8 @@ thereby complying with all relevant norms and standards: ISO/R
 2015-1971, DIN 1355 and, to some extent, ISO 8601 (where applicable).
 
 %prep
-%setup -q -n Date-Calc-%{version} 
+%setup -q -n Date-Calc-%{version}
+%patch0 -p1
 
 %build
 %{__perl} Makefile.PL INSTALLDIRS=vendor OPTIMIZE="$RPM_OPT_FLAGS"
@@ -65,6 +68,13 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Jul 23 2015 Scientific Linux Auto Patch Process <SCIENTIFIC-LINUX-DEVEL@LISTSERV.FNAL.GOV>
+- Eliminated rpmbuild "bogus date" error due to inconsistent weekday,
+  by assuming the date is correct and changing the weekday.
+
+* Wed Apr 22 2015 Petr Šabata <contyk@redhat.com> - 6.3-14
+- Adapt the test suite for the 2015-2115 era (rhbz#1197242)
+
 * Fri Dec 27 2013 Daniel Mach <dmach@redhat.com> - 6.3-13
 - Mass rebuild 2013-12-27
 
